@@ -12,11 +12,7 @@ dist
 dist-ssr
 *.local
 
-# Ignore all Python files
-*.py
 
-# Ignore all XML files
-*.xml
 
 # Editor directories and files
 .vscode/*
