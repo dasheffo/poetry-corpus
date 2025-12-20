@@ -1,24 +1,40 @@
 // src/components/PoemList.jsx
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PoemCard from "./PoemCard";
 import ReactPaginate from "react-paginate";
 
-const PoemList = ({ poems }) => {
+const PoemList = ({ poems, resetPageOnFilter = false }) => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(0);
 
   const itemsPerPageOptions = [5, 10, 20, 30, 50, 100, "все"];
 
+  // Сброс страницы при изменении фильтров
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [poems, resetPageOnFilter]);
+
+  // УПРОЩЕННАЯ ФУНКЦИЯ - убрано отображение циклов
   const getDisplayTitle = (poem) => {
-    if (poem.display_title) {
-      return poem.display_title;
+    // Если есть заголовок, возвращаем его
+    if (poem.title && poem.title !== "***" && poem.title.trim() !== "") {
+      return poem.title;
     }
-    if (!poem.title || poem.title === "***" || poem.title.trim() === "") {
-      const lines = poem.text.split("\n").filter((line) => line.trim() !== "");
-      return lines[0] || "Без названия";
+
+    // Берем первую строку текста (как было изначально)
+    const lines = poem.text ? poem.text.split("\n") : [];
+    const firstLine = lines.find((line) => line.trim() !== "");
+    if (firstLine) {
+      const punctuationAndDotsAtEndRegex = /[.,\u2026\-–—:;!?\s]+$/;
+      const processedFirstLine = firstLine.replace(
+        punctuationAndDotsAtEndRegex,
+        ""
+      );
+      return processedFirstLine + "...";
     }
-    return poem.title;
+
+    return "Без названия...";
   };
 
   const currentPoems = useMemo(() => {
@@ -45,9 +61,6 @@ const PoemList = ({ poems }) => {
 
   return (
     <div className="w-full relative">
-      {" "}
-      {/* Добавлен relative для позиционирования пагинации */}
-      {/* Выбор количества элементов */}
       <div className="mb-4 flex justify-end items-center">
         <div className="flex items-center">
           <label
@@ -89,11 +102,8 @@ const PoemList = ({ poems }) => {
           </li>
         ))}
       </ul>
-      {/* Пагинация - центрирована по всей ширине страницы */}
       {itemsPerPage !== "все" && pageCount > 1 && (
         <div className="mt-6 absolute left-1/2 transform -translate-x-1/2 w-full flex justify-center">
-          {/* Используем absolute с left-1/2 и transform для центрирования по ширине страницы */}
-          {/* w-full и flex justify-center внутри обеспечивают центрирование элемента пагинации */}
           <ReactPaginate
             breakLabel="..."
             nextLabel=">"

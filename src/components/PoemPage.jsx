@@ -1,6 +1,6 @@
 // src/components/PoemPage.jsx
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import PoemCard from "./PoemCard";
 
 const PoemPage = () => {
@@ -8,13 +8,12 @@ const PoemPage = () => {
   const [poem, setPoem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // Состояния для модального окна
   const [morphModalOpen, setMorphModalOpen] = useState(false);
   const [morphData, setMorphData] = useState(null);
   const [clickedWord, setClickedWord] = useState("");
 
   useEffect(() => {
-    fetch("/poems.json")
+    fetch("/poems_minimal.json")
       .then((response) => response.json())
       .then((data) => {
         const foundPoem = data.find((p) => p.id === parseInt(id));
@@ -42,32 +41,50 @@ const PoemPage = () => {
 
   if (error) {
     return (
-      <div className="flex justify-center items-center min-h-screen text-red-500">
-        {error}
+      <div className="container mx-auto px-4 py-8 text-red-500">
+        <h1 className="text-2xl font-bold mb-4">{error}</h1>
+        <Link to="/" className="text-blue-600 hover:underline inline-block">
+          ← Вернуться к списку
+        </Link>
       </div>
     );
   }
 
   if (!poem) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        Стихотворение не найдено
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold text-gray-800">
+          Стихотворение не найдено
+        </h1>
+        <Link
+          to="/"
+          className="text-blue-600 hover:underline mt-4 inline-block"
+        >
+          ← Вернуться к списку
+        </Link>
       </div>
     );
   }
 
   const getDisplayTitle = (p) => {
-    if (p.display_title) {
-      return p.display_title;
+    if (p.title && p.title !== "***" && p.title.trim() !== "") {
+      return p.title;
+    } else {
+      const lines = p.text ? p.text.split("\n") : [];
+      const firstLine = lines.find((line) => line.trim() !== "");
+      if (firstLine) {
+        const punctuationAndDotsAtEndRegex = /[.,\u2026\-–—:;!?\s]+$/;
+        const processedFirstLine = firstLine.replace(
+          punctuationAndDotsAtEndRegex,
+          ""
+        );
+        return processedFirstLine + "...";
+      } else {
+        return "Без названия...";
+      }
     }
-    if (!p.title || p.title === "***" || p.title.trim() === "") {
-      const lines = p.text.split("\n").filter((line) => line.trim() !== "");
-      return lines[0] || "Без названия";
-    }
-    return p.title;
   };
 
-  // Функция для обработки клика по слову
   const handleWordClick = (word, lineIndex, wordInLineIndex) => {
     setClickedWord(word);
     if (
@@ -75,12 +92,10 @@ const PoemPage = () => {
       poem.lines_morph[lineIndex] &&
       poem.lines_morph[lineIndex][wordInLineIndex]
     ) {
-      // Получаем все возможные анализы для этого слова
       const analyses = poem.lines_morph[lineIndex][wordInLineIndex];
       setMorphData(analyses);
       setMorphModalOpen(true);
     } else {
-      // Если данные отсутствуют
       setMorphData([
         { word, normal_form: "Анализ недоступен", pos: "N/A", grammeme: "N/A" },
       ]);
@@ -88,10 +103,8 @@ const PoemPage = () => {
     }
   };
 
-  // Функция для отображения текста стихотворения с кликабельными словами
   const renderPoemText = () => {
     if (!poem.lines) {
-      // Если lines нет, разбиваем text на строки
       const lines = poem.text.split("\n");
       return lines.map((line, lineIndex) => (
         <div key={lineIndex} className="mb-1">
@@ -116,9 +129,7 @@ const PoemPage = () => {
         </div>
       ));
     } else {
-      // Если lines есть, используем его
       return poem.lines.map((line, lineIndex) => {
-        // Используем poem.lines_morph для получения индексов слов, если доступно
         const wordsInLine = line.split(" ");
         return (
           <div key={lineIndex} className="mb-1">
@@ -148,28 +159,50 @@ const PoemPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl">
-      <div className="flex justify-between items-start mb-4">
-        <h1 className="text-3xl font-bold text-gray-800">
-          {getDisplayTitle(poem)}
-        </h1>
-        <PoemCard poem={poem} />
-      </div>
-      <div className="mb-4 text-sm text-gray-600">
-        {poem.author && <span>Автор: {poem.author}</span>}
-        {poem.year && <span>, {poem.year}</span>}
-        {poem.source && <span>, {poem.source}</span>}
-        {poem.in_cycle && poem.cycle_name && (
-          <span>, Цикл: {poem.cycle_name}</span>
+      <Link to="/" className="text-blue-600 hover:underline mb-6 inline-block">
+        ← Вернуться к списку
+      </Link>
+
+      <div className="max-w-3xl mx-auto">
+        <div className="flex justify-between items-start mb-4">
+          <h1 className="text-3xl font-bold text-gray-800">
+            {getDisplayTitle(poem)}
+          </h1>
+          <PoemCard poem={poem} />
+        </div>
+
+        {poem.epigraph && poem.epigraph.trim() !== "" && (
+          <div className="border-l-4 border-gray-300 pl-4 mb-6 italic text-gray-600">
+            {poem.epigraph.split("\n").map((line, index) => (
+              <span key={index}>
+                {line}
+                {index < poem.epigraph.split("\n").length - 1 && <br />}
+              </span>
+            ))}
+          </div>
         )}
-        {poem.metre && <span>, Размер: {poem.metre}</span>}
-      </div>
-      <div className="whitespace-pre-wrap text-gray-700 border-l-4 border-blue-500 pl-4 py-2 bg-gray-50 rounded">
-        {renderPoemText()}
+
+        {poem.dedication && poem.dedication.trim() !== "" && (
+          <div className="text-right mb-6 text-gray-600">
+            <span className="italic">{poem.dedication}</span>
+          </div>
+        )}
+
+        {poem.in_cycle && poem.cycle_display_name && (
+          <div className="mb-6 text-gray-600">
+            <span className="font-medium">Цикл: </span>
+            <span>{poem.cycle_display_name}</span>
+            {poem.number && <span>, №{poem.number}</span>}
+          </div>
+        )}
+
+        <div className="whitespace-pre-wrap text-gray-700 border-l-4 border-blue-500 pl-4 py-2 bg-gray-50 rounded">
+          {renderPoemText()}
+        </div>
       </div>
 
-      {/* Модальное окно для морфологического анализа */}
       {morphModalOpen && (
-        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl border border-gray-200 w-full max-w-md relative">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
