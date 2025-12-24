@@ -1,6 +1,6 @@
-// src/App.jsx
-import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { useState, useEffect, useCallback } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { X } from "lucide-react";
 import PoemList from "./components/PoemList";
 import FilterPanel from "./components/FilterPanel";
 import PoemPage from "./components/PoemPage";
@@ -10,13 +10,18 @@ function AppContent() {
   const [filteredPoems, setFilteredPoems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
+  const [activeFilters, setActiveFilters] = useState({});
 
   useEffect(() => {
-    fetch("/poems.json")
+    fetch("/poems_minimal.json")
       .then((response) => response.json())
       .then((data) => {
-        setPoems(data);
-        setFilteredPoems(data);
+        const poemsWithLineCount = data.map((poem) => ({
+          ...poem,
+          lineCount: poem.lines?.length || 0,
+        }));
+        setPoems(poemsWithLineCount);
+        setFilteredPoems(poemsWithLineCount);
         setLoading(false);
       })
       .catch((error) => {
@@ -25,73 +30,189 @@ function AppContent() {
       });
   }, []);
 
-  const applyFilters = (filters) => {
-    let result = [...poems];
+  const applyFilters = useCallback(
+    (filters) => {
+      let result = [...poems];
 
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      result = result.filter((poem) => {
-        const title = poem.title ? poem.title.toLowerCase() : "";
-        const displayTitle = poem.display_title
-          ? poem.display_title.toLowerCase()
-          : "";
-        const text = poem.text ? poem.text.toLowerCase() : "";
-        return (
-          title.includes(searchLower) ||
-          displayTitle.includes(searchLower) ||
-          text.includes(searchLower)
-        );
-      });
-    }
-
-    if (filters.minLines) {
-      result = result.filter(
-        (poem) => poem.lineCount >= parseInt(filters.minLines)
-      );
-    }
-    if (filters.maxLines) {
-      result = result.filter(
-        (poem) => poem.lineCount <= parseInt(filters.maxLines)
-      );
-    }
-
-    if (filters.hasTitle === "with") {
-      result = result.filter((poem) => poem.hasTitle === true);
-    } else if (filters.hasTitle === "without") {
-      result = result.filter((poem) => poem.hasTitle === false);
-    }
-
-    if (filters.inCycle !== undefined) {
-      if (filters.inCycle === "yes") {
-        result = result.filter((poem) => poem.in_cycle === true);
-      } else if (filters.inCycle === "no") {
-        result = result.filter((poem) => poem.in_cycle === false);
+      // Поиск
+      if (filters.search) {
+        const searchLower = filters.search.toLowerCase();
+        result = result.filter((poem) => {
+          const title = poem.title ? poem.title.toLowerCase() : "";
+          const displayTitle = poem.display_title
+            ? poem.display_title.toLowerCase()
+            : "";
+          const text = poem.text ? poem.text.toLowerCase() : "";
+          const epigraph = poem.epigraph ? poem.epigraph.toLowerCase() : "";
+          const dedication = poem.dedication
+            ? poem.dedication.toLowerCase()
+            : "";
+          return (
+            title.includes(searchLower) ||
+            displayTitle.includes(searchLower) ||
+            text.includes(searchLower) ||
+            epigraph.includes(searchLower) ||
+            dedication.includes(searchLower)
+          );
+        });
       }
+
+      // Фильтрация по циклам
+      if (filters.in_cycle !== undefined) {
+        result = result.filter((poem) => poem.in_cycle === filters.in_cycle);
+      }
+
+      if (filters.cycle_has_title !== undefined) {
+        result = result.filter(
+          (poem) => poem.cycle_has_title === filters.cycle_has_title
+        );
+      }
+
+      // Раздел
+      if (filters.section) {
+        result = result.filter((poem) => poem.section_name === filters.section);
+      }
+
+      // Строки
+      if (filters.minLines) {
+        result = result.filter(
+          (poem) => poem.lineCount >= parseInt(filters.minLines)
+        );
+      }
+      if (filters.maxLines) {
+        result = result.filter(
+          (poem) => poem.lineCount <= parseInt(filters.maxLines)
+        );
+      }
+
+      // Эпиграфы и посвящения
+      if (filters.hasEpigraph) {
+        result = result.filter(
+          (poem) => poem.epigraph && poem.epigraph.trim() !== ""
+        );
+      }
+      if (filters.hasDedication) {
+        result = result.filter(
+          (poem) => poem.dedication && poem.dedication.trim() !== ""
+        );
+      }
+
+      setFilteredPoems(result);
+      setActiveFilters(filters);
+      setShowFilters(false);
+    },
+    [poems]
+  );
+
+  // Вынесенный компонент активных фильтров и счетчика
+  const ResultsHeader = () => {
+    if (!activeFilters || Object.keys(activeFilters).length === 0) {
+      return (
+        <div className="mb-6">
+          <div className="text-center text-sm text-gray-600 mb-4">
+            Найдено: {filteredPoems.length}{" "}
+            {filteredPoems.length === 1
+              ? "стихотворение"
+              : filteredPoems.length % 10 >= 2 &&
+                filteredPoems.length % 10 <= 4 &&
+                (filteredPoems.length % 100 < 10 ||
+                  filteredPoems.length % 100 >= 20)
+              ? "стихотворения"
+              : "стихотворений"}
+          </div>
+        </div>
+      );
     }
 
-    setFilteredPoems(result);
-    setShowFilters(false);
-  };
+    const filterLabels = [];
 
-  if (loading) {
+    if (activeFilters.search) {
+      filterLabels.push(`Поиск: "${activeFilters.search}"`);
+    }
+    if (activeFilters.in_cycle !== undefined) {
+      filterLabels.push(
+        activeFilters.in_cycle ? "В циклах" : "Отдельные стихи"
+      );
+    }
+    if (activeFilters.cycle_has_title !== undefined) {
+      filterLabels.push(
+        activeFilters.cycle_has_title
+          ? "Циклы с названиями"
+          : "Циклы без названий"
+      );
+    }
+    if (activeFilters.section) {
+      filterLabels.push(`Раздел: ${activeFilters.section}`);
+    }
+    if (activeFilters.minLines || activeFilters.maxLines) {
+      const min = activeFilters.minLines || 0;
+      const max = activeFilters.maxLines || "∞";
+      filterLabels.push(`Строк: ${min}-${max}`);
+    }
+    if (activeFilters.hasEpigraph) {
+      filterLabels.push("С эпиграфами");
+    }
+    if (activeFilters.hasDedication) {
+      filterLabels.push("С посвящениями");
+    }
+
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="text-lg">Загрузка стихотворений...</div>
+      <div className="mb-6">
+        {/* Активные фильтры */}
+        <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg border border-blue-200 mb-3">
+          <div className="flex items-center">
+            <div className="flex justify-between">
+              <span className="text-[14px] font-medium text-blue-800">
+                Активные фильтры:
+              </span>
+            </div>
+            <div className="flex flex-wrap ml-4 gap-2">
+              {filterLabels.map((label, index) => (
+                <span
+                  key={index}
+                  className="px-2 py-1 text-[14px] bg-blue-100 text-blue-800 text-xs rounded-full"
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              setActiveFilters({});
+              setFilteredPoems(poems);
+            }}
+            className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1"
+          >
+            <X className="w-5 h-5" />
+            <span className="text-[14px]">Сбросить все</span>
+          </button>
+        </div>
+
+        {/* Счетчик */}
+        <div className="text-center text-sm text-gray-600">
+          Найдено: {filteredPoems.length}{" "}
+          {filteredPoems.length === 1
+            ? "стихотворение"
+            : filteredPoems.length % 10 >= 2 &&
+              filteredPoems.length % 10 <= 4 &&
+              (filteredPoems.length % 100 < 10 ||
+                filteredPoems.length % 100 >= 20)
+            ? "стихотворения"
+            : "стихотворений"}
+        </div>
       </div>
     );
-  }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 relative">
-      {" "}
-      {/* Добавлен relative на контейнер */}
+      {/* Шапка */}
       <div className="grid grid-cols-[128px_1fr_128px] gap-4 items-start mb-8">
-        {/* grid-cols создает 3 колонки: левая (для фильтров), центральная (для заголовка), правая (пустая) */}
-        {/* 128px примерно соответствует ширине кнопки + немного отступа */}
         <div>
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             {showFilters ? "Скрыть" : "Фильтры"}
           </button>
@@ -102,60 +223,55 @@ function AppContent() {
           </h1>
           <p className="text-gray-600">Избранное, 2020</p>
         </div>
-        <div></div> {/* Пустая правая колонка */}
+        <div></div>
       </div>
-      {/* Абсолютно позиционированная панель фильтров, не влияет на поток */}
+
+      {/* ВЫНЕСЕННЫЙ БЛОК: Активные фильтры и счетчик */}
+      <div className="grid grid-cols-[128px_1fr_128px] gap-4">
+        <div></div>
+        <ResultsHeader />
+        <div></div>
+      </div>
+
+      {/* Панель фильтров */}
       {showFilters && (
-        <div className="absolute top-24 left-4 w-96 z-50 bg-white p-4 rounded-lg shadow-lg border border-gray-200">
-          {/* top-24 примерно на уровне заголовка + немного ниже */}
-          {/* left-4 примерно соответствует левому отступу контейнера px-4 */}
+        <div className="absolute top-24 left-4 w-96 z-50 bg-white p-4 rounded-lg shadow-lg border">
           <div className="flex justify-between items-center mb-2">
             <h3 className="font-bold text-lg">Фильтры</h3>
             <button
               onClick={() => setShowFilters(false)}
               className="text-gray-500 hover:text-gray-700"
-              aria-label="Закрыть фильтры"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              ✕
             </button>
           </div>
           <FilterPanel
             onApplyFilters={applyFilters}
-            poemCount={filteredPoems.length}
+            poems={poems}
+            activeFilters={activeFilters}
           />
         </div>
       )}
-      {/* Список стихотворений теперь будет в левой колонке, выровнен по левой границе заголовка */}
-      {/* Так как PoemList теперь находится в левой колонке grid-а, его левая граница совпадает с левой границей заголовка */}
+
+      {/* Список стихотворений с фиксированным отступом */}
       <div className="grid grid-cols-[128px_1fr_128px] gap-4">
-        <div></div> {/* Пустая левая колонка */}
-        <div>
-          <PoemList poems={filteredPoems} />
+        <div></div>
+        <div className="mb-16">
+          {" "}
+          {/* Фиксированный отступ снизу */}
+          <PoemList
+            poems={filteredPoems}
+            resetPageOnFilter={Object.keys(activeFilters).length > 0}
+            key={JSON.stringify(activeFilters)}
+          />
+          {filteredPoems.length === 0 && (
+            <div className="text-center py-8 text-gray-500">
+              Стихотворения по заданным фильтрам не найдены.
+            </div>
+          )}
         </div>
-        <div></div> {/* Пустая правая колонка */}
+        <div></div>
       </div>
-      {filteredPoems.length === 0 && (
-        <div className="grid grid-cols-[128px_1fr_128px] gap-4">
-          <div></div>
-          <div className="text-center py-8 text-gray-500">
-            Стихотворения по заданным фильтрам не найдены.
-          </div>
-          <div></div>
-        </div>
-      )}
     </div>
   );
 }
