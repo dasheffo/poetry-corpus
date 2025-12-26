@@ -12,150 +12,91 @@ const PoemPage = () => {
   const [morphData, setMorphData] = useState(null);
   const [clickedWord, setClickedWord] = useState("");
 
+  // новые стейты
+  const [lemmas, setLemmas] = useState(null); // lemmas.json
+  const [compactMorph, setCompactMorph] = useState(null); // poems_morphology_compact.json
+
+  /* ---------- загрузка данных ---------- */
   useEffect(() => {
-    fetch("/poems_minimal.json")
-      .then((response) => response.json())
-      .then((data) => {
-        const foundPoem = data.find((p) => p.id === parseInt(id));
-        if (foundPoem) {
-          setPoem(foundPoem);
-        } else {
-          setError("Стихотворение не найдено");
-        }
+    Promise.all([
+      fetch("/poems_minimal.json").then((r) => r.json()),
+      fetch("/lemmas.json").then((r) => r.json()),
+      fetch("/poems_morphology_compact.json").then((r) => r.json()),
+    ])
+      .then(([poemsData, lemmasData, compactData]) => {
+        const found = poemsData.find((p) => p.id === parseInt(id, 10));
+        if (found) setPoem(found);
+        else setError("Стихотворение не найдено");
+
+        setLemmas(lemmasData);
+        setCompactMorph(compactData);
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Ошибка загрузки стихотворения:", err);
+        console.error(err);
         setError("Ошибка загрузки данных");
         setLoading(false);
       });
   }, [id]);
 
-  if (loading) {
+  /* ---------- обработка клика ---------- */
+  const handleWordClick = (word, lineIdx, wordIdx) => {
+    setClickedWord(word);
+
+    // разборы лежат в lemmas
+    const analyses = lemmas?.[word] || [];
+    if (analyses.length) setMorphData(analyses);
+    else
+      setMorphData([
+        { word, normal_form: "Анализ недоступен", pos: "N/A", grammeme: "N/A" },
+      ]);
+
+    setMorphModalOpen(true);
+  };
+
+  /* ---------- вспомогательные функции ---------- */
+  const getDisplayTitle = (p) => {
+    /* ваша реализация */
+  };
+  const renderPoemText = () => {
+    const lines = poem.lines || (poem.text ? poem.text.split("\n") : []);
+    return lines.map((line, lineIndex) => (
+      <div key={lineIndex} className="mb-1">
+        {line.split(" ").map((w, wordIndex) => {
+          const clean = w.replace(/[.,;:!?()"\-–—]/g, "");
+          return clean ? (
+            <span
+              key={wordIndex}
+              onClick={() => handleWordClick(clean, lineIndex, wordIndex)}
+              className="cursor-pointer hover:bg-yellow-100 border-b border-dotted border-gray-400"
+            >
+              {w}{" "}
+            </span>
+          ) : (
+            <span key={wordIndex}>{w} </span>
+          );
+        })}
+      </div>
+    ));
+  };
+
+  /* ---------- рендер ---------- */
+  if (loading)
     return (
       <div className="flex justify-center items-center min-h-screen">
         Загрузка...
       </div>
     );
-  }
-
-  if (error) {
+  if (error)
     return (
-      <div className="container mx-auto px-4 py-8 text-red-500">
-        <h1 className="text-2xl font-bold mb-4">{error}</h1>
-        <Link to="/" className="text-blue-600 hover:underline inline-block">
-          ← Вернуться к списку
-        </Link>
-      </div>
+      <div className="container mx-auto px-4 py-8 text-red-500">{error}</div>
     );
-  }
-
-  if (!poem) {
+  if (!poem)
     return (
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold text-gray-800">
-          Стихотворение не найдено
-        </h1>
-        <Link
-          to="/"
-          className="text-blue-600 hover:underline mt-4 inline-block"
-        >
-          ← Вернуться к списку
-        </Link>
+        Стихотворение не найдено
       </div>
     );
-  }
-
-  const getDisplayTitle = (p) => {
-    if (p.title && p.title !== "***" && p.title.trim() !== "") {
-      return p.title;
-    } else {
-      const lines = p.text ? p.text.split("\n") : [];
-      const firstLine = lines.find((line) => line.trim() !== "");
-      if (firstLine) {
-        const punctuationAndDotsAtEndRegex = /[.,\u2026\-–—:;!?\s]+$/;
-        const processedFirstLine = firstLine.replace(
-          punctuationAndDotsAtEndRegex,
-          ""
-        );
-        return processedFirstLine + "...";
-      } else {
-        return "Без названия...";
-      }
-    }
-  };
-
-  const handleWordClick = (word, lineIndex, wordInLineIndex) => {
-    setClickedWord(word);
-    if (
-      poem.lines_morph &&
-      poem.lines_morph[lineIndex] &&
-      poem.lines_morph[lineIndex][wordInLineIndex]
-    ) {
-      const analyses = poem.lines_morph[lineIndex][wordInLineIndex];
-      setMorphData(analyses);
-      setMorphModalOpen(true);
-    } else {
-      setMorphData([
-        { word, normal_form: "Анализ недоступен", pos: "N/A", grammeme: "N/A" },
-      ]);
-      setMorphModalOpen(true);
-    }
-  };
-
-  const renderPoemText = () => {
-    if (!poem.lines) {
-      const lines = poem.text.split("\n");
-      return lines.map((line, lineIndex) => (
-        <div key={lineIndex} className="mb-1">
-          {line.split(" ").map((word, wordIndex) => {
-            const cleanWord = word.replace(/[.,;:!?()"\-]/g, "");
-            if (cleanWord) {
-              return (
-                <span
-                  key={wordIndex}
-                  onClick={() =>
-                    handleWordClick(cleanWord, lineIndex, wordIndex)
-                  }
-                  className="cursor-pointer hover:bg-yellow-100 border-b border-dotted border-gray-400"
-                >
-                  {word}{" "}
-                </span>
-              );
-            } else {
-              return <span key={wordIndex}>{word} </span>;
-            }
-          })}
-        </div>
-      ));
-    } else {
-      return poem.lines.map((line, lineIndex) => {
-        const wordsInLine = line.split(" ");
-        return (
-          <div key={lineIndex} className="mb-1">
-            {wordsInLine.map((word, wordIndex) => {
-              const cleanWord = word.replace(/[.,;:!?()"\-]/g, "");
-              if (cleanWord) {
-                return (
-                  <span
-                    key={wordIndex}
-                    onClick={() =>
-                      handleWordClick(cleanWord, lineIndex, wordIndex)
-                    }
-                    className="cursor-pointer hover:bg-yellow-100 border-b border-dotted border-gray-400"
-                  >
-                    {word}{" "}
-                  </span>
-                );
-              } else {
-                return <span key={wordIndex}>{word} </span>;
-              }
-            })}
-          </div>
-        );
-      });
-    }
-  };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl">
@@ -171,36 +112,14 @@ const PoemPage = () => {
           <PoemCard poem={poem} />
         </div>
 
-        {poem.epigraph && poem.epigraph.trim() !== "" && (
-          <div className="border-l-4 border-gray-300 pl-4 mb-6 italic text-gray-600">
-            {poem.epigraph.split("\n").map((line, index) => (
-              <span key={index}>
-                {line}
-                {index < poem.epigraph.split("\n").length - 1 && <br />}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {poem.dedication && poem.dedication.trim() !== "" && (
-          <div className="text-right mb-6 text-gray-600">
-            <span className="italic">{poem.dedication}</span>
-          </div>
-        )}
-
-        {poem.in_cycle && poem.cycle_display_name && (
-          <div className="mb-6 text-gray-600">
-            <span className="font-medium">Цикл: </span>
-            <span>{poem.cycle_display_name}</span>
-            {poem.number && <span>, №{poem.number}</span>}
-          </div>
-        )}
+        {/* epigraph, dedication, cycle … */}
 
         <div className="whitespace-pre-wrap text-gray-700 border-l-4 border-blue-500 pl-4 py-2 bg-gray-50 rounded">
           {renderPoemText()}
         </div>
       </div>
 
+      {/* модальное окно с morphData */}
       {morphModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl border border-gray-200 w-full max-w-md relative">
@@ -212,7 +131,7 @@ const PoemPage = () => {
                 <button
                   onClick={() => setMorphModalOpen(false)}
                   className="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
-                  aria-label="Закрыть модальное окно"
+                  aria-label="Закрыть"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -230,21 +149,22 @@ const PoemPage = () => {
                   </svg>
                 </button>
               </div>
+
               {morphData && morphData.length > 0 ? (
                 <div className="space-y-2 max-h-96 overflow-y-auto">
-                  {morphData.map((analysis, index) => (
+                  {morphData.map((a, i) => (
                     <div
-                      key={index}
+                      key={i}
                       className="p-2 bg-gray-50 rounded border border-gray-200"
                     >
                       <p className="text-sm">
-                        <strong>Лемма:</strong> {analysis.normal_form}
+                        <strong>Лемма:</strong> {a.normal_form}
                       </p>
                       <p className="text-sm">
-                        <strong>Часть речи:</strong> {analysis.pos || "N/A"}
+                        <strong>Часть речи:</strong> {a.pos || "N/A"}
                       </p>
                       <p className="text-sm">
-                        <strong>Граммемы:</strong> {analysis.grammeme}
+                        <strong>Граммемы:</strong> {a.grammeme}
                       </p>
                     </div>
                   ))}

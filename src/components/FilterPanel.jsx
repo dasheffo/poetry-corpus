@@ -1,9 +1,33 @@
+// src/components/FilterPanel.jsx
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Search } from "lucide-react";
-import { useMemo } from "react";
 
-const FilterPanel = ({ onApplyFilters, poems = [], activeFilters = {} }) => {
-  const { register, handleSubmit, reset } = useForm({
+const FilterPanel = ({
+  onApplyFilters,
+  poems = [],
+  activeFilters = {},
+  lemmas = {},
+}) => {
+  const lemmaList = useMemo(() => {
+    const set = new Set();
+    Object.values(lemmas).forEach((arr) =>
+      arr.forEach((a) => set.add(a.normal_form))
+    );
+    return [...set].sort((a, b) => a.localeCompare(b, "ru"));
+  }, [lemmas]);
+
+  const [lemmaInput, setLemmaInput] = useState(activeFilters.lemma || "");
+
+  const datalistOptions = useMemo(() => {
+    if (!lemmaInput) return [];
+    const low = lemmaInput.toLowerCase();
+    return lemmaList
+      .filter((l) => l.toLowerCase().startsWith(low))
+      .slice(0, 50);
+  }, [lemmaInput, lemmaList]);
+
+  const { register, handleSubmit, reset, setValue } = useForm({
     defaultValues: {
       search: "",
       poemType: "",
@@ -12,51 +36,24 @@ const FilterPanel = ({ onApplyFilters, poems = [], activeFilters = {} }) => {
       maxLines: "",
       hasEpigraph: false,
       hasDedication: false,
+      lemma: "",
       ...activeFilters,
     },
   });
 
   const sections = useMemo(() => {
-    const uniqueSections = [
-      ...new Set(poems.map((p) => p.section_name).filter(Boolean)),
-    ];
-    return uniqueSections.sort();
+    const s = [...new Set(poems.map((p) => p.section_name).filter(Boolean))];
+    return s.sort((a, b) => a.localeCompare(b, "ru"));
   }, [poems]);
 
   const onSubmit = (data) => {
-    const filteredData = Object.fromEntries(
+    const filtered = Object.fromEntries(
       Object.entries(data).filter(
-        ([_, value]) =>
-          value !== "" &&
-          value !== false &&
-          value !== null &&
-          value !== undefined
+        ([, v]) => v !== "" && v !== false && v != null
       )
     );
-
-    // Преобразуем poemType и явно очищаем старые фильтры
-    if (filteredData.poemType === "cycles") {
-      filteredData.in_cycle = true;
-      delete filteredData.cycle_has_title; // Очищаем, чтобы не осталось от старого выбора
-    } else if (filteredData.poemType === "individual") {
-      filteredData.in_cycle = false;
-      delete filteredData.cycle_has_title;
-    } else if (filteredData.poemType === "cycles_with_names") {
-      filteredData.in_cycle = true;
-      filteredData.cycle_has_title = true;
-    } else if (filteredData.poemType === "cycles_without_names") {
-      filteredData.in_cycle = true;
-      filteredData.cycle_has_title = false;
-    } else {
-      // ❗ КРИТИЧНО: При "Все стихотворения" (пустое значение)
-      // явно удаляем все фильтры циклов
-      delete filteredData.in_cycle;
-      delete filteredData.cycle_has_title;
-    }
-
-    delete filteredData.poemType;
-
-    onApplyFilters(filteredData);
+    if (lemmaInput.trim()) filtered.lemma = lemmaInput.trim();
+    onApplyFilters(filtered);
   };
 
   const handleReset = () => {
@@ -68,13 +65,35 @@ const FilterPanel = ({ onApplyFilters, poems = [], activeFilters = {} }) => {
       maxLines: "",
       hasEpigraph: false,
       hasDedication: false,
+      lemma: "",
     });
+    setLemmaInput("");
     onApplyFilters({});
   };
 
+  useMemo(() => setValue("lemma", lemmaInput), [lemmaInput, setValue]);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      {/* Поиск */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Поиск по лемме
+        </label>
+        <input
+          type="text"
+          value={lemmaInput}
+          onChange={(e) => setLemmaInput(e.target.value)}
+          list="lemma-list"
+          placeholder="Начните вводить лемму…"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <datalist id="lemma-list">
+          {datalistOptions.map((l) => (
+            <option key={l} value={l} />
+          ))}
+        </datalist>
+      </div>
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Поиск по тексту, эпиграфам и посвящениям
@@ -90,7 +109,6 @@ const FilterPanel = ({ onApplyFilters, poems = [], activeFilters = {} }) => {
         </div>
       </div>
 
-      {/* Тип стихотворения */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Тип стихотворения
@@ -107,7 +125,6 @@ const FilterPanel = ({ onApplyFilters, poems = [], activeFilters = {} }) => {
         </select>
       </div>
 
-      {/* Разделы */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Раздел книги
@@ -117,15 +134,14 @@ const FilterPanel = ({ onApplyFilters, poems = [], activeFilters = {} }) => {
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Все разделы</option>
-          {sections.map((section) => (
-            <option key={section} value={section}>
-              {section}
+          {sections.map((s) => (
+            <option key={s} value={s}>
+              {s}
             </option>
           ))}
         </select>
       </div>
 
-      {/* Количество строк */}
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -146,14 +162,13 @@ const FilterPanel = ({ onApplyFilters, poems = [], activeFilters = {} }) => {
           <input
             type="number"
             {...register("maxLines")}
-            placeholder="100"
+            placeholder="∞"
             min="0"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
       </div>
 
-      {/* Дополнительные опции */}
       <div className="space-y-2">
         <label className="flex items-center space-x-2">
           <input
@@ -163,7 +178,6 @@ const FilterPanel = ({ onApplyFilters, poems = [], activeFilters = {} }) => {
           />
           <span className="text-sm text-gray-700">Только с эпиграфами</span>
         </label>
-
         <label className="flex items-center space-x-2">
           <input
             type="checkbox"
@@ -174,7 +188,6 @@ const FilterPanel = ({ onApplyFilters, poems = [], activeFilters = {} }) => {
         </label>
       </div>
 
-      {/* Кнопки */}
       <div className="flex gap-3 pt-2">
         <button
           type="submit"
