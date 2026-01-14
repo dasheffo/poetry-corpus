@@ -1,7 +1,7 @@
 // src/components/PoemPage.jsx
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import PoemCard from "./PoemCard";
+import PoemCard from "./PoemCard"; // PoemCard теперь ожидает poem с полями meter, rhyme_scheme, scansion_score
 
 const PoemPage = () => {
   const { id } = useParams();
@@ -18,26 +18,48 @@ const PoemPage = () => {
 
   /* ---------- загрузка данных ---------- */
   useEffect(() => {
+    // Загружаем ЧЕТЫРЕ файла: poems_minimal, lemmas, morphology_compact, meter-analysis
     Promise.all([
       fetch("/poems_minimal.json").then((r) => r.json()),
       fetch("/lemmas.json").then((r) => r.json()),
       fetch("/poems_morphology_compact.json").then((r) => r.json()),
+      fetch("/meter-analysis.json").then((r) => r.json()), // Добавлено
     ])
-      .then(([poemsData, lemmasData, compactData]) => {
+      .then(([poemsData, lemmasData, compactData, meterAnalysisData]) => {
+        // Добавлен meterAnalysisData
+        // Создаем Map из meter-analysis для быстрого поиска, как в App.jsx
+        const meterMap = new Map(
+          meterAnalysisData.map((item) => [item.id, item])
+        );
+
+        // Находим стихотворение по id
         const found = poemsData.find((p) => p.id === parseInt(id, 10));
-        if (found) setPoem(found);
-        else setError("Стихотворение не найдено");
+
+        if (found) {
+          // Объединяем данные, как в App.jsx
+          const meterInfo = meterMap.get(found.id);
+          const enrichedPoem = {
+            ...found,
+            lineCount: found.lines?.length || 0,
+            meter: meterInfo?.meter || null,
+            rhyme_scheme: meterInfo?.rhyme_scheme || null,
+            scansion_score: meterInfo?.score || null,
+          };
+          setPoem(enrichedPoem);
+        } else {
+          setError("Стихотворение не найдено");
+        }
 
         setLemmas(lemmasData);
         setCompactMorph(compactData);
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Ошибка загрузки данных в PoemPage:", err);
         setError("Ошибка загрузки данных");
         setLoading(false);
       });
-  }, [id]);
+  }, [id]); // id в зависимостях, чтобы перезапускать эффект при переходе между стихами
 
   /* ---------- обработка клика ---------- */
   const handleWordClick = (word, lineIdx, wordIdx) => {
@@ -56,14 +78,28 @@ const PoemPage = () => {
 
   /* ---------- вспомогательные функции ---------- */
   const getDisplayTitle = (p) => {
-    /* ваша реализация */
+    if (p.title && p.title !== "***" && p.title.trim() !== "") {
+      return p.title;
+    }
+    const lines = p.text ? p.text.split("\n") : [];
+    const firstLine = lines.find((line) => line.trim() !== "");
+    if (firstLine) {
+      const punctuationAndDotsAtEndRegex = /[.,\u2026\-–—:;!?\s]+$/;
+      const processedFirstLine = firstLine.replace(
+        punctuationAndDotsAtEndRegex,
+        ""
+      );
+      return processedFirstLine + "...";
+    }
+    return "Без названия...";
   };
+
   const renderPoemText = () => {
     const lines = poem.lines || (poem.text ? poem.text.split("\n") : []);
     return lines.map((line, lineIndex) => (
       <div key={lineIndex} className="mb-1">
         {line.split(" ").map((w, wordIndex) => {
-          const clean = w.replace(/[.,;:!?()"\-–—]/g, "");
+          const clean = w.replace(/[.,;:!?()"\-–—\u2026\u00AB\u00BB]/g, "");
           return clean ? (
             <span
               key={wordIndex}
@@ -109,10 +145,42 @@ const PoemPage = () => {
           <h1 className="text-3xl font-bold text-gray-800">
             {getDisplayTitle(poem)}
           </h1>
+          {/* Теперь PoemCard получит объединённый объект poem */}
           <PoemCard poem={poem} />
         </div>
 
         {/* epigraph, dedication, cycle … */}
+        {(poem.epigraph ||
+          poem.dedication ||
+          (poem.in_cycle && poem.cycle_display_name)) && (
+          <div className="mb-6 p-4 bg-gray-100 rounded-lg border border-gray-300">
+            {poem.epigraph && poem.epigraph.trim() !== "" && (
+              <div className="mb-3">
+                <p className="italic text-gray-700 border-l-4 border-blue-500 pl-3">
+                  {poem.epigraph}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">Эпиграф</p>
+              </div>
+            )}
+            {poem.dedication && poem.dedication.trim() !== "" && (
+              <div className="mb-3">
+                <p className="text-gray-700 border-l-4 border-green-500 pl-3">
+                  {poem.dedication}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">Посвящение</p>
+              </div>
+            )}
+            {poem.in_cycle && poem.cycle_display_name && (
+              <div>
+                <p className="text-gray-700 font-medium">
+                  {poem.cycle_display_name}
+                  {poem.number ? `, №${poem.number}` : ""}
+                </p>
+                <p className="text-xs text-gray-500">Цикл</p>
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="whitespace-pre-wrap text-gray-700 border-l-4 border-blue-500 pl-4 py-2 bg-gray-50 rounded">
           {renderPoemText()}

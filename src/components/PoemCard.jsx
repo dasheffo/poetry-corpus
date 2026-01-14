@@ -72,9 +72,30 @@ const PoemCard = ({ poem }) => {
                   <dt className="font-medium text-gray-500">Источник:</dt>
                   <dd className="text-gray-900 text-right">{poem.source}</dd>
                 </div>
+                {/* ИСПРАВЛЕНО: используем poem.meter вместо poem.metre */}
                 <div className="flex justify-between border-b border-gray-100 pb-2">
                   <dt className="font-medium text-gray-500">Размер:</dt>
-                  <dd className="text-gray-900 text-right">{poem.metre}</dd>
+                  <dd className="text-gray-900 text-right">
+                    {poem.meter || "Не определен"}
+                  </dd>
+                </div>
+                {/* Добавлено: рифмовка */}
+                <div className="flex justify-between border-b border-gray-100 pb-2">
+                  <dt className="font-medium text-gray-500">Рифмовка:</dt>
+                  <dd className="text-gray-900 text-right">
+                    {poem.rhyme_scheme || "Не определена"}
+                  </dd>
+                </div>
+                {/* ИСПРАВЛЕНО: обработка случая, когда scansion_score null или undefined */}
+                <div className="flex justify-between border-b border-gray-100 pb-2">
+                  <dt className="font-medium text-gray-500">
+                    Оценка техничности:
+                  </dt>
+                  <dd className="text-gray-900 text-right">
+                    {typeof poem.scansion_score === "number"
+                      ? poem.scansion_score.toFixed(6)
+                      : "Не определена"}
+                  </dd>
                 </div>
                 <div className="flex justify-between border-b border-gray-100 pb-2">
                   <dt className="font-medium text-gray-500">Строк:</dt>

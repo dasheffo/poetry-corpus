@@ -5,7 +5,7 @@ import { Search } from "lucide-react";
 
 const FilterPanel = ({
   onApplyFilters,
-  poems = [],
+  poems = [], // Теперь содержит метрические данные
   activeFilters = {},
   lemmas = {},
 }) => {
@@ -30,7 +30,8 @@ const FilterPanel = ({
   const { register, handleSubmit, reset, setValue } = useForm({
     defaultValues: {
       search: "",
-      poemType: "",
+      poemType: "", // Добавлено
+      meter: "", // Добавлено
       section: "",
       minLines: "",
       maxLines: "",
@@ -46,6 +47,12 @@ const FilterPanel = ({
     return s.sort((a, b) => a.localeCompare(b, "ru"));
   }, [poems]);
 
+  // Получаем уникальные размеры из данных
+  const meters = useMemo(() => {
+    const m = [...new Set(poems.map((p) => p.meter).filter(Boolean))]; // filter(Boolean) убирает null/undefined
+    return m.sort(); // Сортируем по алфавиту
+  }, [poems]); // Зависит от poems, т.к. они теперь содержат meter
+
   const onSubmit = (data) => {
     const filtered = Object.fromEntries(
       Object.entries(data).filter(
@@ -60,6 +67,7 @@ const FilterPanel = ({
     reset({
       search: "",
       poemType: "",
+      meter: "", // Добавлено
       section: "",
       minLines: "",
       maxLines: "",
@@ -109,6 +117,25 @@ const FilterPanel = ({
         </div>
       </div>
 
+      {/* Фильтр по размеру */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Размер стихотворения
+        </label>
+        <select
+          {...register("meter")}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Все размеры</option>
+          {meters.map((m) => (
+            <option key={m} value={m}>
+              {m}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Обновлённый фильтр по типу стихотворения - теперь включает все опции */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Тип стихотворения
@@ -118,10 +145,10 @@ const FilterPanel = ({
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Все стихотворения</option>
-          <option value="cycles">Все циклы</option>
+          <option value="individual">Только отдельные стихи</option>
+          <option value="in_cycle">Только в циклах</option>
           <option value="cycles_with_names">Циклы с названиями</option>
           <option value="cycles_without_names">Циклы без названий</option>
-          <option value="individual">Только отдельные стихи</option>
         </select>
       </div>
 

@@ -30,7 +30,7 @@ const buildReverse = (norm) => {
 };
 
 function AppContent() {
-  const [poems, setPoems] = useState([]);
+  const [poems, setPoems] = useState([]); // Теперь содержит объединенные данные
   const [filteredPoems, setFilteredPoems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
@@ -41,24 +41,43 @@ function AppContent() {
 
   /* ----------  загрузка  ---------- */
   useEffect(() => {
+    // Загружаем три файла: основной корпус, леммы и метрический анализ
     Promise.all([
       fetch("/poems_minimal.json").then((r) => r.json()),
       fetch("/lemmas.json").then((r) => r.json()),
+      fetch("/meter-analysis.json").then((r) => r.json()), // Добавлено
     ])
-      .then(([data, lemmasData]) => {
-        const enriched = data.map((p) => ({
-          ...p,
-          lineCount: p.lines?.length || 0,
-        }));
-        const normalized = normalizeLemmas(lemmasData);
+      .then(([data, lemmasData, meterAnalysisData]) => {
+        // Добавлен meterAnalysisData
+        // Нормализуем леммы
+        const normalizedLemmas = normalizeLemmas(lemmasData);
+
+        // Создаем Map из meter-analysis для быстрого поиска
+        const meterMap = new Map(
+          meterAnalysisData.map((item) => [item.id, item])
+        );
+
+        // Объединяем данные из poems_minimal и meter-analysis
+        const enriched = data.map((p) => {
+          const meterInfo = meterMap.get(p.id); // Находим данные по id
+          return {
+            ...p,
+            lineCount: p.lines?.length || 0,
+            // Добавляем метрические данные
+            meter: meterInfo?.meter || null,
+            rhyme_scheme: meterInfo?.rhyme_scheme || null,
+            scansion_score: meterInfo?.score || null,
+          };
+        });
+
         setPoems(enriched);
         setFilteredPoems(enriched);
-        setLemmas(normalized);
-        setReverseLemmas(buildReverse(normalized));
+        setLemmas(normalizedLemmas);
+        setReverseLemmas(buildReverse(normalizedLemmas));
         setLoading(false);
       })
       .catch((e) => {
-        console.error(e);
+        console.error("Ошибка загрузки данных:", e);
         setLoading(false);
       });
   }, []);
@@ -138,11 +157,28 @@ function AppContent() {
         }
       }
 
-      /* 3. остальные фильтры без изменений */
-      if (filters.in_cycle !== undefined)
-        res = res.filter((p) => p.in_cycle === filters.in_cycle);
-      if (filters.cycle_has_title !== undefined)
-        res = res.filter((p) => p.cycle_has_title === filters.cycle_has_title);
+      /* 3. фильтр по размеру */
+      if (filters.meter) {
+        res = res.filter((p) => p.meter === filters.meter);
+      }
+
+      /* 4. фильтр по типу стихотворения */
+      if (filters.poemType === "individual") {
+        res = res.filter((p) => !p.in_cycle); // Только если in_cycle === false
+      } else if (filters.poemType === "in_cycle") {
+        res = res.filter((p) => p.in_cycle); // Только если in_cycle === true
+      } else if (filters.poemType === "cycles_with_names") {
+        res = res.filter((p) => p.in_cycle && p.cycle_has_title); // В цикле И цикл имеет название
+      } else if (filters.poemType === "cycles_without_names") {
+        res = res.filter((p) => p.in_cycle && !p.cycle_has_title); // В цикле И цикл НЕ имеет название
+      }
+
+      /* 5. остальные фильтры без изменений (с учётом возможного конфликта с poemType) */
+      // Старые фильтры filters.in_cycle и filters.cycle_has_title теперь игнорируются, если активен filters.poemType
+      // if (filters.in_cycle !== undefined)
+      //   res = res.filter((p) => p.in_cycle === filters.in_cycle);
+      // if (filters.cycle_has_title !== undefined)
+      //   res = res.filter((p) => p.cycle_has_title === filters.cycle_has_title);
       if (filters.section)
         res = res.filter((p) => p.section_name === filters.section);
       if (filters.minLines)
@@ -179,8 +215,11 @@ function AppContent() {
     const labels = [];
     if (activeFilters.search) labels.push(`Поиск: «${activeFilters.search}»`);
     if (activeFilters.lemma) labels.push(`Лемма: «${activeFilters.lemma}»`);
-    if (activeFilters.in_cycle !== undefined)
-      labels.push(activeFilters.in_cycle ? "В циклах" : "Отдельные стихи");
+    if (activeFilters.meter) labels.push(`Размер: ${activeFilters.meter}`); // Добавлено
+    // Обновляем отображение типа стихотворения
+    if (activeFilters.poemType === "individual")
+      labels.push("Только отдельные стихи");
+    if (activeFilters.poemType === "in_cycle") labels.push("Только в циклах");
     if (activeFilters.cycle_has_title !== undefined)
       labels.push(
         activeFilters.cycle_has_title
@@ -286,7 +325,7 @@ function AppContent() {
           </div>
           <FilterPanel
             onApplyFilters={applyFilters}
-            poems={poems}
+            poems={poems} // Передаем объединенные данные
             activeFilters={activeFilters}
             lemmas={lemmas}
           />
