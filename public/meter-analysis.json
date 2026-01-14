@@ -1,0 +1,1316 @@
+[
+  {
+    "id": 1,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.29791073884366376
+  },
+  {
+    "id": 2,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.1362076216669674
+  },
+  {
+    "id": 3,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.29305980000000004
+  },
+  {
+    "id": 4,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.8
+  },
+  {
+    "id": 5,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 1.0
+  },
+  {
+    "id": 6,
+    "meter": "амфибрахий",
+    "rhyme_scheme": "------------",
+    "score": 0.006966666666666669
+  },
+  {
+    "id": 7,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.46349900536796046
+  },
+  {
+    "id": 8,
+    "meter": "амфибрахий",
+    "rhyme_scheme": "------------",
+    "score": 0.06499203333333334
+  },
+  {
+    "id": 9,
+    "meter": "амфибрахий",
+    "rhyme_scheme": "--A--A",
+    "score": 3.920490083333334e-07
+  },
+  {
+    "id": 10,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 2.030813806887124e-16
+  },
+  {
+    "id": 11,
+    "meter": "хорей",
+    "rhyme_scheme": "-A-A",
+    "score": 0.49756532346679677
+  },
+  {
+    "id": 12,
+    "meter": "дактиль",
+    "rhyme_scheme": "---------------------",
+    "score": 9.076858362178848e-08
+  },
+  {
+    "id": 13,
+    "meter": "хорей",
+    "rhyme_scheme": "ABAB",
+    "score": 0.05747198531488749
+  },
+  {
+    "id": 14,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 8.696581688893308e-12
+  },
+  {
+    "id": 15,
+    "meter": "dolnik",
+    "rhyme_scheme": "----",
+    "score": 0.002888000000000001
+  },
+  {
+    "id": 16,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 1.1361876915070316e-12
+  },
+  {
+    "id": 17,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.35933945829565334
+  },
+  {
+    "id": 18,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.14455563929831894
+  },
+  {
+    "id": 19,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.3143368931001488
+  },
+  {
+    "id": 20,
+    "meter": "хорей",
+    "rhyme_scheme": null,
+    "score": 0.3897717594348846
+  },
+  {
+    "id": 21,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.21126659209322438
+  },
+  {
+    "id": 22,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.107801837488696
+  },
+  {
+    "id": 23,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.10266841665590097
+  },
+  {
+    "id": 24,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.49826891825523745
+  },
+  {
+    "id": 25,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.02432278958338704
+  },
+  {
+    "id": 26,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.475
+  },
+  {
+    "id": 27,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5237529720703124
+  },
+  {
+    "id": 28,
+    "meter": "ямб",
+    "rhyme_scheme": "---------------",
+    "score": 1.2602434363083162e-06
+  },
+  {
+    "id": 29,
+    "meter": "хорей",
+    "rhyme_scheme": null,
+    "score": 0.11707369386136962
+  },
+  {
+    "id": 30,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.2442944
+  },
+  {
+    "id": 31,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.03901399832924237
+  },
+  {
+    "id": 32,
+    "meter": "дактиль",
+    "rhyme_scheme": "------------",
+    "score": 8.534416173746652e-11
+  },
+  {
+    "id": 33,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5030752416139147
+  },
+  {
+    "id": 34,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.0239169080762514
+  },
+  {
+    "id": 35,
+    "meter": "хорей",
+    "rhyme_scheme": "-----",
+    "score": 0.6421567757273438
+  },
+  {
+    "id": 36,
+    "meter": "дактиль",
+    "rhyme_scheme": "--------------",
+    "score": 1.313216791071429e-08
+  },
+  {
+    "id": 37,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 9.54232425813818e-18
+  },
+  {
+    "id": 38,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.2508722011315063
+  },
+  {
+    "id": 39,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.36627344115991606
+  },
+  {
+    "id": 40,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.3794280555546273
+  },
+  {
+    "id": 41,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.12000000000000002
+  },
+  {
+    "id": 42,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.48286861833579364
+  },
+  {
+    "id": 43,
+    "meter": "анапест",
+    "rhyme_scheme": "----------------",
+    "score": 0.0007421875000000001
+  },
+  {
+    "id": 44,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.005550375
+  },
+  {
+    "id": 45,
+    "meter": "анапест",
+    "rhyme_scheme": "------------------------",
+    "score": 6.286970117187501e-07
+  },
+  {
+    "id": 46,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.32430386111182713
+  },
+  {
+    "id": 47,
+    "meter": "анапест",
+    "rhyme_scheme": "----------------",
+    "score": 6.983212500000002e-06
+  },
+  {
+    "id": 48,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 3.3810882787163574e-18
+  },
+  {
+    "id": 49,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.133
+  },
+  {
+    "id": 50,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.41393913186698544
+  },
+  {
+    "id": 51,
+    "meter": "dolnik",
+    "rhyme_scheme": "--------",
+    "score": 2.6693788330534258e-08
+  },
+  {
+    "id": 52,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6501520226632812
+  },
+  {
+    "id": 53,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5403600876626368
+  },
+  {
+    "id": 54,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.4322880701301094
+  },
+  {
+    "id": 55,
+    "meter": "хорей",
+    "rhyme_scheme": null,
+    "score": 0.0040584314809963004
+  },
+  {
+    "id": 56,
+    "meter": "хорей",
+    "rhyme_scheme": null,
+    "score": 0.3630122123017944
+  },
+  {
+    "id": 57,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.75
+  },
+  {
+    "id": 58,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.19942400000000005
+  },
+  {
+    "id": 59,
+    "meter": "анапест",
+    "rhyme_scheme": "----------",
+    "score": 7.960862250000001e-05
+  },
+  {
+    "id": 60,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.32402099620670416
+  },
+  {
+    "id": 61,
+    "meter": "анапест",
+    "rhyme_scheme": "--------",
+    "score": 1.0000000000000004e-05
+  },
+  {
+    "id": 62,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.4888361072656248
+  },
+  {
+    "id": 63,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.34916864804687486
+  },
+  {
+    "id": 64,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.8
+  },
+  {
+    "id": 65,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.16000000000000003
+  },
+  {
+    "id": 66,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.4527507403915999
+  },
+  {
+    "id": 67,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 1.0
+  },
+  {
+    "id": 68,
+    "meter": "анапест",
+    "rhyme_scheme": "----------",
+    "score": 0.0009414500000000003
+  },
+  {
+    "id": 69,
+    "meter": "dolnik",
+    "rhyme_scheme": "------------",
+    "score": 1.1092389611153122e-07
+  },
+  {
+    "id": 70,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6843705501718748
+  },
+  {
+    "id": 71,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.7998451374999999
+  },
+  {
+    "id": 72,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.058986326291045416
+  },
+  {
+    "id": 73,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.308005249967703
+  },
+  {
+    "id": 74,
+    "meter": "анапест",
+    "rhyme_scheme": "------------",
+    "score": 1.7976478740000008e-07
+  },
+  {
+    "id": 75,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6302494097246092
+  },
+  {
+    "id": 76,
+    "meter": "дактиль",
+    "rhyme_scheme": "------------",
+    "score": 2.507323527254864e-09
+  },
+  {
+    "id": 77,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6302494097246092
+  },
+  {
+    "id": 78,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.20950118882812496
+  },
+  {
+    "id": 79,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.4887037499999999
+  },
+  {
+    "id": 80,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.06572694763850685
+  },
+  {
+    "id": 81,
+    "meter": "dolnik",
+    "rhyme_scheme": "------------------",
+    "score": 1.4755217562709687e-13
+  },
+  {
+    "id": 82,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.42660006920734483
+  },
+  {
+    "id": 83,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5987369392383788
+  },
+  {
+    "id": 84,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.8200000000000001
+  },
+  {
+    "id": 85,
+    "meter": "dolnik",
+    "rhyme_scheme": null,
+    "score": 0.21986587199999996
+  },
+  {
+    "id": 86,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.8
+  },
+  {
+    "id": 87,
+    "meter": "dolnik",
+    "rhyme_scheme": "--------",
+    "score": 0.001129101144
+  },
+  {
+    "id": 88,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.09329
+  },
+  {
+    "id": 89,
+    "meter": "dolnik",
+    "rhyme_scheme": "----",
+    "score": 0.012228165389519997
+  },
+  {
+    "id": 90,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.6859999999999999
+  },
+  {
+    "id": 91,
+    "meter": "ямб",
+    "rhyme_scheme": "--------",
+    "score": 0.04594564264973031
+  },
+  {
+    "id": 92,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6501520226632811
+  },
+  {
+    "id": 93,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.25725
+  },
+  {
+    "id": 94,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5244935981634079
+  },
+  {
+    "id": 95,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5574240904309304
+  },
+  {
+    "id": 96,
+    "meter": "анапест",
+    "rhyme_scheme": "-----------",
+    "score": 2.0047960653409091e-07
+  },
+  {
+    "id": 97,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.575012771586
+  },
+  {
+    "id": 98,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.49276030343723987
+  },
+  {
+    "id": 99,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.09408000000000002
+  },
+  {
+    "id": 100,
+    "meter": "хорей",
+    "rhyme_scheme": null,
+    "score": 0.513342083279505
+  },
+  {
+    "id": 101,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.75
+  },
+  {
+    "id": 102,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.3981600645935218
+  },
+  {
+    "id": 103,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5349564867860104
+  },
+  {
+    "id": 104,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6983372960937497
+  },
+  {
+    "id": 105,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.4540254055565581
+  },
+  {
+    "id": 106,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.44477177282784086
+  },
+  {
+    "id": 107,
+    "meter": "амфибрахий",
+    "rhyme_scheme": "--------",
+    "score": 0.009329
+  },
+  {
+    "id": 108,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.2541043312233549
+  },
+  {
+    "id": 109,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6378606583239641
+  },
+  {
+    "id": 110,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.03235335449737092
+  },
+  {
+    "id": 111,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5579253813850207
+  },
+  {
+    "id": 112,
+    "meter": "ямб",
+    "rhyme_scheme": "--------",
+    "score": 0.06686120177666012
+  },
+  {
+    "id": 113,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.6000000000000001
+  },
+  {
+    "id": 114,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.07125000000000001
+  },
+  {
+    "id": 115,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.0011552000000000003
+  },
+  {
+    "id": 116,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5149204019493185
+  },
+  {
+    "id": 117,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.49826891825523756
+  },
+  {
+    "id": 118,
+    "meter": "dolnik",
+    "rhyme_scheme": "-------------",
+    "score": 1.58779848375e-08
+  },
+  {
+    "id": 119,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.332976
+  },
+  {
+    "id": 120,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.03706329841278026
+  },
+  {
+    "id": 121,
+    "meter": "dolnik",
+    "rhyme_scheme": null,
+    "score": 0.2742726
+  },
+  {
+    "id": 122,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 1.0
+  },
+  {
+    "id": 123,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.650152022663281
+  },
+  {
+    "id": 124,
+    "meter": "анапест",
+    "rhyme_scheme": "------------",
+    "score": 0.01783640833333333
+  },
+  {
+    "id": 125,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.3300950014888241
+  },
+  {
+    "id": 126,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.56456604761875
+  },
+  {
+    "id": 127,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.32780634281183496
+  },
+  {
+    "id": 128,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5927495698459949
+  },
+  {
+    "id": 129,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.42724280543349963
+  },
+  {
+    "id": 130,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5690551857250458
+  },
+  {
+    "id": 131,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.04985600000000002
+  },
+  {
+    "id": 132,
+    "meter": "хорей",
+    "rhyme_scheme": null,
+    "score": 0.09753499582310594
+  },
+  {
+    "id": 133,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.3859232425781249
+  },
+  {
+    "id": 134,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.475
+  },
+  {
+    "id": 135,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 1.0
+  },
+  {
+    "id": 136,
+    "meter": "дактиль",
+    "rhyme_scheme": null,
+    "score": 0.095
+  },
+  {
+    "id": 137,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.0008451520000000001
+  },
+  {
+    "id": 138,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.73
+  },
+  {
+    "id": 139,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.8200000000000001
+  },
+  {
+    "id": 140,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.27871204521546517
+  },
+  {
+    "id": 141,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 1.0
+  },
+  {
+    "id": 142,
+    "meter": "хорей",
+    "rhyme_scheme": null,
+    "score": 0.3773536025353074
+  },
+  {
+    "id": 143,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.14630249373465892
+  },
+  {
+    "id": 144,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5199950438593748
+  },
+  {
+    "id": 145,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5242573570502901
+  },
+  {
+    "id": 146,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.3855509906946485
+  },
+  {
+    "id": 147,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6704221815472653
+  },
+  {
+    "id": 148,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.4411745868072264
+  },
+  {
+    "id": 149,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.27999999999999997
+  },
+  {
+    "id": 150,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.8200000000000001
+  },
+  {
+    "id": 151,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.1567951257071915
+  },
+  {
+    "id": 152,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.2
+  },
+  {
+    "id": 153,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5582639324331062
+  },
+  {
+    "id": 154,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.0016857800501261688
+  },
+  {
+    "id": 155,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.594
+  },
+  {
+    "id": 156,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6050560188464069
+  },
+  {
+    "id": 157,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.4272033137890841
+  },
+  {
+    "id": 158,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.0007296000000000004
+  },
+  {
+    "id": 159,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.37730643121043606
+  },
+  {
+    "id": 160,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.3412800553658759
+  },
+  {
+    "id": 161,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.09558429590664382
+  },
+  {
+    "id": 162,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.06949368452396297
+  },
+  {
+    "id": 163,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.09265824603195064
+  },
+  {
+    "id": 164,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.49802315956852594
+  },
+  {
+    "id": 165,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.2861892
+  },
+  {
+    "id": 166,
+    "meter": "dolnik",
+    "rhyme_scheme": null,
+    "score": 0.0009127255531520004
+  },
+  {
+    "id": 167,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6634204312890624
+  },
+  {
+    "id": 168,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5987369392383787
+  },
+  {
+    "id": 169,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6050560188464071
+  },
+  {
+    "id": 170,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.169381711167539
+  },
+  {
+    "id": 171,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.18658
+  },
+  {
+    "id": 172,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6706831391684372
+  },
+  {
+    "id": 173,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.453968649824636
+  },
+  {
+    "id": 174,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.01950699916462119
+  },
+  {
+    "id": 175,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.586822074147535
+  },
+  {
+    "id": 176,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6684995926580931
+  },
+  {
+    "id": 177,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.46008863346954804
+  },
+  {
+    "id": 178,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.21614403506505472
+  },
+  {
+    "id": 179,
+    "meter": "хорей",
+    "rhyme_scheme": null,
+    "score": 0.0936958267018774
+  },
+  {
+    "id": 180,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5574240904309306
+  },
+  {
+    "id": 181,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.010631285874589972
+  },
+  {
+    "id": 182,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.44693586949999986
+  },
+  {
+    "id": 183,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.7819474343749998
+  },
+  {
+    "id": 184,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.49282190895051614
+  },
+  {
+    "id": 185,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.23832859107493104
+  },
+  {
+    "id": 186,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.11376001845529193
+  },
+  {
+    "id": 187,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.24588297999999992
+  },
+  {
+    "id": 188,
+    "meter": "dolnik",
+    "rhyme_scheme": "--------",
+    "score": 8.491781520500001e-06
+  },
+  {
+    "id": 189,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 1.0
+  },
+  {
+    "id": 190,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.38
+  },
+  {
+    "id": 191,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.09975
+  },
+  {
+    "id": 192,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6843705501718748
+  },
+  {
+    "id": 193,
+    "meter": "ямб",
+    "rhyme_scheme": "-AA--A",
+    "score": 0.6108796875
+  },
+  {
+    "id": 194,
+    "meter": "ямб",
+    "rhyme_scheme": "ABAB",
+    "score": 0.7737809374999999
+  },
+  {
+    "id": 195,
+    "meter": "ямб",
+    "rhyme_scheme": "A-BBA",
+    "score": 0.7183945124999999
+  },
+  {
+    "id": 196,
+    "meter": "ямб",
+    "rhyme_scheme": "ABAB",
+    "score": 0.0735091890625
+  },
+  {
+    "id": 197,
+    "meter": "ямб",
+    "rhyme_scheme": "ABAB",
+    "score": 0.651605
+  },
+  {
+    "id": 198,
+    "meter": "ямб",
+    "rhyme_scheme": "ABAB",
+    "score": 0.5416466562499999
+  },
+  {
+    "id": 199,
+    "meter": "ямб",
+    "rhyme_scheme": "ABAB",
+    "score": 0.6584820499999999
+  },
+  {
+    "id": 200,
+    "meter": "ямб",
+    "rhyme_scheme": "ABAB",
+    "score": 0.4994552700101561
+  },
+  {
+    "id": 201,
+    "meter": "dolnik",
+    "rhyme_scheme": "ABAB",
+    "score": 0.8
+  },
+  {
+    "id": 202,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5811563414552996
+  },
+  {
+    "id": 203,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.474199655876796
+  },
+  {
+    "id": 204,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.38
+  },
+  {
+    "id": 205,
+    "meter": "дактиль",
+    "rhyme_scheme": null,
+    "score": 0.0005212840000000001
+  },
+  {
+    "id": 206,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.11496064358081731
+  },
+  {
+    "id": 207,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.5097059173593866
+  },
+  {
+    "id": 208,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.395292429779275
+  },
+  {
+    "id": 209,
+    "meter": "хорей",
+    "rhyme_scheme": null,
+    "score": 0.36980653048460127
+  },
+  {
+    "id": 210,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.6439405445488084
+  },
+  {
+    "id": 211,
+    "meter": "амфибрахий",
+    "rhyme_scheme": "----------",
+    "score": 4.7045881000000025e-09
+  },
+  {
+    "id": 212,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.11510175370097721
+  },
+  {
+    "id": 213,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.033088094010541975
+  },
+  {
+    "id": 214,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.11974738784767575
+  },
+  {
+    "id": 215,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.3491686480468749
+  },
+  {
+    "id": 216,
+    "meter": "амфибрахий",
+    "rhyme_scheme": null,
+    "score": 0.991
+  },
+  {
+    "id": 217,
+    "meter": "ямб",
+    "rhyme_scheme": null,
+    "score": 0.30840866127042577
+  },
+  {
+    "id": 218,
+    "meter": "анапест",
+    "rhyme_scheme": null,
+    "score": 0.10289999999999999
+  },
+  {
+    "id": 219,
+    "meter": "ямб",
+    "rhyme_scheme": "--------",
+    "score": 9.754921582541288e-05
+  }
+]
